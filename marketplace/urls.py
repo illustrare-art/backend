@@ -4,5 +4,5 @@ from marketplace.views import PhotoListCreateView
 
 
 urlpatterns = [
-    path("add_photo/", PhotoListCreateView.as_view(), name="add-photo"),
+    path("photo/", PhotoListCreateView.as_view(), name="add-photo"),
 ]
