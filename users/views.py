@@ -1,11 +1,12 @@
-from rest_framework import serializers
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.generics import RetrieveUpdateAPIView
 
 from api.mixins import ApiErrorsMixin, ApiAuthMixin, PublicApiMixin
 
 from auth.services import jwt_login, google_validate_id_token
-from users.serializers import UserSerializer
+from users.models import User
+from users.serializers import UserSerializer, ProfileSerializer
 
 from users.services import user_get_or_create
 
@@ -24,3 +25,11 @@ class UserInitView(PublicApiMixin, ApiErrorsMixin, APIView):
         response = jwt_login(response=response, user=user)
 
         return response
+
+
+class UserUpdateProfileView(RetrieveUpdateAPIView, ApiAuthMixin, ApiErrorsMixin):
+    serializer_class = ProfileSerializer
+    lookup_field = "uuid"
+    lookup_url_kwarg = "user_uuid"
+    queryset = User.objects.all()
+

@@ -1,9 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.management.utils import get_random_secret_key
+from uuid import uuid4
 
 
 class User(AbstractUser):
+    uuid = models.UUIDField(unique=True, default=uuid4)
     username = models.CharField(
         max_length=150,
     )
