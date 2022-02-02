@@ -1,9 +1,9 @@
 from rest_framework import status
 from rest_framework.views import APIView
-from rest_framework.response import Response
 
 from django.urls import reverse
 from django.conf import settings
+from django.http import HttpResponse
 
 from api.mixins import ApiErrorsMixin, PublicApiMixin, ApiAuthMixin
 from auth.serializers import GoogleLoginSerializer
@@ -26,8 +26,8 @@ class GoogleLoginView(PublicApiMixin, ApiErrorsMixin, APIView):
         error = validated_data.get("error")
 
         if error or not code:
-            return Response(
-                data={"success": False}, status=status.HTTP_401_UNAUTHORIZED
+            return HttpResponse(
+                {"success": False}, status=status.HTTP_401_UNAUTHORIZED,content_type="application/json"
             )
 
         domain = settings.BASE_BACKEND_URL
@@ -46,7 +46,7 @@ class GoogleLoginView(PublicApiMixin, ApiErrorsMixin, APIView):
 
         user, _ = user_get_or_create(**profile_data)
 
-        response = Response(data={"success": True}, status=status.HTTP_200_OK)
+        response = HttpResponse(data={"success": True}, status=status.HTTP_200_OK,content_type="application/json")
         response = jwt_login(response=response, user=user)
         return response
 
@@ -58,6 +58,6 @@ class LogoutView(ApiAuthMixin, ApiErrorsMixin, APIView):
         """
         user_change_secret_key(user=request.user)
 
-        response = Response(status=status.HTTP_202_ACCEPTED)
+        response = HttpResponse(status=status.HTTP_202_ACCEPTED)
         response.delete_cookie(settings.JWT_AUTH["JWT_AUTH_COOKIE"])
         return response
