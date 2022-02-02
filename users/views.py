@@ -32,4 +32,3 @@ class UserUpdateProfileView(RetrieveUpdateAPIView, ApiAuthMixin, ApiErrorsMixin)
     lookup_field = "uuid"
     lookup_url_kwarg = "user_uuid"
     queryset = User.objects.all()
-

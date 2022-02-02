@@ -27,7 +27,9 @@ class GoogleLoginView(PublicApiMixin, ApiErrorsMixin, APIView):
 
         if error or not code:
             return HttpResponse(
-                {"success": False}, status=status.HTTP_401_UNAUTHORIZED,content_type="application/json"
+                {"success": False},
+                status=status.HTTP_401_UNAUTHORIZED,
+                content_type="application/json",
             )
 
         domain = settings.BASE_BACKEND_URL
@@ -46,7 +48,11 @@ class GoogleLoginView(PublicApiMixin, ApiErrorsMixin, APIView):
 
         user, _ = user_get_or_create(**profile_data)
 
-        response = HttpResponse(data={"success": True}, status=status.HTTP_200_OK,content_type="application/json")
+        response = HttpResponse(
+            data={"success": True},
+            status=status.HTTP_200_OK,
+            content_type="application/json",
+        )
         response = jwt_login(response=response, user=user)
         return response
 

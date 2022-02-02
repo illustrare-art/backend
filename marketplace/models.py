@@ -7,7 +7,9 @@ from django.utils import timezone
 class Photo(models.Model):
     uuid = models.UUIDField(unique=True, default=uuid4)
     photo_url = models.URLField(null=False, blank=False)
-    user_id = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name="photos")
+    user_id = models.ForeignKey(
+        to=User, on_delete=models.CASCADE, related_name="photos"
+    )
     post_date = models.DateTimeField()
     post_name = models.CharField(max_length=60)
     description = models.CharField(max_length=400)

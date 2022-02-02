@@ -16,24 +16,54 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Photo',
+            name="Photo",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('uuid', models.UUIDField(default=uuid.uuid4, unique=True)),
-                ('photo_url', models.URLField()),
-                ('post_date', models.DateTimeField()),
-                ('post_name', models.CharField(max_length=60)),
-                ('description', models.CharField(max_length=400)),
-                ('user_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='photos', to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("uuid", models.UUIDField(default=uuid.uuid4, unique=True)),
+                ("photo_url", models.URLField()),
+                ("post_date", models.DateTimeField()),
+                ("post_name", models.CharField(max_length=60)),
+                ("description", models.CharField(max_length=400)),
+                (
+                    "user_id",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="photos",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Bid',
+            name="Bid",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('uuid', models.UUIDField(default=uuid.uuid4, unique=True)),
-                ('bid_price', models.FloatField()),
-                ('photo', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='bids', to='marketplace.photo')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("uuid", models.UUIDField(default=uuid.uuid4, unique=True)),
+                ("bid_price", models.FloatField()),
+                (
+                    "photo",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="bids",
+                        to="marketplace.photo",
+                    ),
+                ),
             ],
         ),
     ]
