@@ -13,6 +13,8 @@ import environ
 from pathlib import Path
 from django.core.management.utils import get_random_secret_key
 
+import os
+port = os.environ.get("PORT",None) or 8000
 
 env = environ.Env(DEBUG=(int, 0))
 # reading .env file
@@ -27,9 +29,9 @@ SECRET_KEY = env.str("DJANGO_SECRET_KEY", default=get_random_secret_key())
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool("DEBUG", default=True)
 
-BASE_BACKEND_URL = env.str("DJANGO_BASE_BACKEND_URL", default="http://127.0.0.1:8000")
+BASE_BACKEND_URL = env.str("DJANGO_BASE_BACKEND_URL", default="http://127.0.0.1:{port}")
 
-ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default=["127.0.0.1", "localhost"])
+ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default=["*"])
 
 # Application definition
 
@@ -154,10 +156,7 @@ JWT_AUTH = {
 
 # CORS settings
 CORS_ALLOW_CREDENTIALS = True
-CORS_ORIGIN_WHITELIST = env.list(
-    "DJANGO_CORS_ORIGIN_WHITELIST",
-    default=["http://127.0.0.1:8000", "http://localhost:8000"],
-)
+CORS_ORIGIN_ALLOW_ALL = True
 
 
 # Google OAuth2 settings
