@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 
 from django.urls import reverse
 from django.conf import settings
-from django.http import HttpResponse
+from django.http import HttpResponse,JsonResponse
 
 from api.mixins import ApiErrorsMixin, PublicApiMixin, ApiAuthMixin
 from auth.serializers import GoogleLoginSerializer
@@ -26,10 +26,8 @@ class GoogleLoginView(PublicApiMixin, ApiErrorsMixin, APIView):
         }
         user, _ = user_get_or_create(**profile_data)
 
-        response = HttpResponse(
-            data={"success": True},
-            status=status.HTTP_200_OK,
-            content_type="application/json",
+        response = JsonResponse(
+            {"success": True},
         )
         response = jwt_login(response=response, user=user)
         return response
